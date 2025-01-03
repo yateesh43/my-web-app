@@ -13,7 +13,7 @@
             text-decoration: none;
         }
         body {
-            background-color: #FFF3E0;
+            background-color: #f8efe1;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -171,7 +171,10 @@
             // Check if username and password match the admin credentials
             if (username === "admin" && password === "admin123") {
                 window.location.href = "adminDashboard.html";  // Redirect to the admin dashboard
-            } else {
+            } else if(username === "user" && password === "user123"){
+                window.location.href = "userDashboard.html";  // Redirect to the user dashboard
+            }
+            else {
                 errorMessage.style.display = "block";  // Show error message
             }
         }
