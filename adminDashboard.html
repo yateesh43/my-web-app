@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" 
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap');
 
@@ -18,14 +20,14 @@
         body {
             display: flex;
             min-height: 100vh;
-            background-color: #FFF3E0;
+            background-color: #f8efe1;
         }
 
         /* Sidebar styling */
         .sidebar {
             width: 250px;
-            background-color: #333;
-            color: #fff;
+            background-color: #FF9800;
+            color: #FFF3E0;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -36,10 +38,24 @@
             bottom: 0;
             transform: translateX(0);
             transition: transform 0.3s ease;
+            z-index: 2;
         }
 
         .sidebar.closed {
             transform: translateX(-250px);
+        }
+
+        .sidebar .toggle-btn {
+            background-color: transparent;
+            color: #FFF3E0;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .sidebar .toggle-btn i {
+            font-size: 2rem; /* Increased size */
+            transition: color 0.3s;
         }
 
         .sidebar h2 {
@@ -48,7 +64,7 @@
 
         .sidebar a {
             text-decoration: none;
-            color: #fff;
+            color: #FFF3E0;
             padding: 10px 20px;
             margin: 5px 0;
             width: 90%;
@@ -57,16 +73,15 @@
             transition: background 0.3s;
         }
 
-        .sidebar a:hover, .sidebar a.active {
-            background-color: #FF9800;
+        .sidebar a.active, .sidebar a:hover {
+            background-color: #F57C00;
         }
 
         /* Main content styling */
         .main {
             flex: 1;
             margin-left: 250px;
-            padding: 0; /* Remove extra padding */
-            transition: margin-left 0.3s ease, padding-left 0.3s ease;
+            transition: margin-left 0.3s ease;
         }
 
         .main.shifted {
@@ -74,14 +89,34 @@
         }
 
         .header {
-            background-color: #fff;
-            padding: 0 20px; /* Adjust padding to balance spacing */
-            height: 60px; /* Ensure consistent height */
+            background-color: #FF9800;
+            color: #fff;
+            padding: 0 20px;
+            height: 60px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            transition: padding-left 0.3s ease;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        .header .toggle-btn {
+            background-color: transparent;
+            color: #FFF3E0;
+            border: none;
+            cursor: pointer;
+            display: none; /* Initially hidden */
+        }
+
+        .header .toggle-btn i {
+            font-size: 2rem; /* Increased size */
+            transition: color 0.3s;
+        }
+
+        .header .toggle-btn:hover i {
+            color: #F57C00;
         }
 
         .header h1 {
@@ -100,39 +135,17 @@
             margin-left: 10px;
         }
 
-        .toggle-btn {
-            background-color: #FF9800;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            padding: 10px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .toggle-btn:hover {
-            background-color: #F57C00;
-        }
-
         .content {
             margin-top: 20px;
+            padding: 0 20px;
         }
 
         .card {
-            background-color: #fff;
+            background-color: #FFF3E0;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
-        }
-
-        .card h2 {
-            margin-bottom: 10px;
-            font-size: 1.2rem;
-        }
-
-        .card p {
-            color: #555;
         }
 
         .grid {
@@ -140,49 +153,26 @@
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
         }
-
-        /* Adjust colors to match login page theme */
-        .card {
-            background-color: #FFF3E0;
-            color: #000;
-        }
-
-        .header {
-            background-color: #FF9800;
-            color: #fff;
-        }
-
-        .sidebar {
-            background-color: #FF9800;
-        }
-
-        .sidebar a {
-            color: #FFF3E0;
-        }
-
-        .sidebar a.active, .sidebar a:hover {
-            background-color: #F57C00;
-        }
     </style>
 </head>
-<body>
+<body background="https://next-images.123rf.com/index/_next/image/?url=https://assets-cdn.123rf.com/index/static/assets/top-section-bg.jpeg&w=3840&q=75" style="background-size: cover;">
     <div class="sidebar">
+        <button class="toggle-btn" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
         <h2>Admin Dashboard</h2>
         <a href="#" class="active">Dashboard</a>
         <a href="#">Users</a>
         <a href="#">Orders</a>
         <a href="#">Reports</a>
-        <a href="#">Settings</a>
         <a href="/loginPage.html">Logout</a>
     </div>
 
     <div class="main">
         <div class="header">
-            <button class="toggle-btn" onclick="toggleSidebar()"><i class="fa-solid fa-bars fa-2xl" style="color: #FFF3E0;"></i></button>
+            <button class="toggle-btn" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
             <h1>Welcome, Admin</h1>
             <div class="profile">
                 <span>Admin Name</span>
-                <img src="https://via.placeholder.com/40" alt="Profile">
+                <img src="https://png.pngtree.com/png-clipart/20230409/original/pngtree-admin-and-customer-service-job-vacancies-png-image_9041264.png" alt="Profile">
             </div>
         </div>
 
@@ -212,9 +202,30 @@
         function toggleSidebar() {
             const sidebar = document.querySelector('.sidebar');
             const main = document.querySelector('.main');
+            const headerToggle = document.querySelector('.header .toggle-btn');
+
             sidebar.classList.toggle('closed');
             main.classList.toggle('shifted');
+
+            // Show/hide toggle button in the header based on sidebar state
+            if (sidebar.classList.contains('closed')) {
+                headerToggle.style.display = 'block';
+            } else {
+                headerToggle.style.display = 'none';
+            }
         }
+
+        // Initialize toggle button visibility
+        window.onload = () => {
+            const sidebar = document.querySelector('.sidebar');
+            const headerToggle = document.querySelector('.header .toggle-btn');
+
+            if (sidebar.classList.contains('closed')) {
+                headerToggle.style.display = 'block';
+            } else {
+                headerToggle.style.display = 'none';
+            }
+        };
     </script>
 </body>
 </html>
