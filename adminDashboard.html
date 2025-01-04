@@ -158,6 +158,10 @@
             display: none;
         }
 
+        #bookList {
+            display: none; /* Hide book list initially */
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -250,7 +254,7 @@
         <h2>Admin Dashboard</h2>
         <a href="#" id="dashboardLink" class="active" onclick="showDashboard()">Dashboard</a>
         <a href="#" id="usersLink" onclick="showUsers()">Users</a>
-        <a href="#">Books</a>
+        <a href="#" id="booksLink" onclick="showBooks()">Books</a>
         <a href="#">Reports</a>
         <a href="/loginPage.html">Logout</a>
     </div>
@@ -303,6 +307,24 @@
                 </table>
                 <button class="add-user-btn" onclick="openModal()">Add New User</button>
             </div>
+
+            <div id="bookList">
+                <h2 style="color: #f5f5f5;">Books List</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Books data will go here -->
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
@@ -350,20 +372,36 @@
         function showDashboard() {
             // Hide User List and show Dashboard
             document.getElementById('userList').style.display = 'none';
+            document.getElementById('bookList').style.display = 'none';
             document.getElementById('dashboard').style.display = 'grid';
             // Set active class for dashboard
             document.getElementById('dashboardLink').classList.add('active');
             document.getElementById('usersLink').classList.remove('active');
+            document.getElementById('booksLink').classList.remove('active');
         }
 
         function showUsers() {
             // Hide Dashboard and show Users
             document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('bookList').style.display = 'none';
             document.getElementById('userList').style.display = 'block';
             // Set active class for users
             document.getElementById('usersLink').classList.add('active');
             document.getElementById('dashboardLink').classList.remove('active');
+            document.getElementById('booksLink').classList.remove('active');
             loadUserTable();
+        }
+
+        function showBooks(){
+            // Hide Dashboard and show Books
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('userList').style.display = 'none';
+            document.getElementById('bookList').style.display = 'block';
+            // Set active class for books
+            document.getElementById('booksLink').classList.add('active');
+            document.getElementById('dashboardLink').classList.remove('active');
+            document.getElementById('usersLink').classList.remove('active');
+            loadBooksTable();
         }
 
         let users = [
@@ -374,13 +412,14 @@
         ];
 
         let books = [
-            
-        ]
+            { id: 1, title: 'Java', author: 'James Gosling', status: 'Available'},
+            { id: 2, title: 'Python', author: 'Guido van Rossum', status: 'Unavailable'},
+            { id: 3, title: 'C++', author: 'Bjarne Stroustrup', status: 'Available'},
+        ];
 
         function loadUserTable() {
-            const tbody = document.querySelector('#userList tbody');
-            tbody.innerHTML = ''; // Clear the existing rows
-
+            const tableBody = document.querySelector('#userList tbody');
+            tableBody.innerHTML = '';
             users.forEach(user => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
@@ -390,7 +429,23 @@
                     <td>${user.status}</td>
                     <td><span class="delete-btn" onclick="deleteUser(${user.id})"><i class="fa-solid fa-trash"></i></span></td>
                 `;
-                tbody.appendChild(row);
+                tableBody.appendChild(row);
+            });
+        }
+
+        function loadBooksTable() {
+            const tableBody = document.querySelector('#bookList tbody');
+            tableBody.innerHTML = '';
+            books.forEach(book => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${book.id}</td>
+                    <td>${book.title}</td>
+                    <td>${book.author}</td>
+                    <td>${book.status}</td>
+                    <td><span class="delete-btn" onclick="deleteBook(${book.id})"><i class="fa-solid fa-trash"></i></span></td>
+                `;
+                tableBody.appendChild(row);
             });
         }
 
@@ -399,12 +454,19 @@
             loadUserTable();
         }
 
+        function deleteBook(id) {
+            books = books.filter(book => book.id !== id);
+            loadBooksTable();
+        }
+
         function openModal() {
-            document.getElementById('userModal').style.display = 'flex';
+            const modal = document.getElementById('userModal');
+            modal.style.display = 'flex';
         }
 
         function closeModal() {
-            document.getElementById('userModal').style.display = 'none';
+            const modal = document.getElementById('userModal');
+            modal.style.display = 'none';
         }
 
         function addUser() {
@@ -412,18 +474,16 @@
             const email = document.getElementById('userEmail').value;
             const status = document.getElementById('userStatus').value;
 
-            if (name && email && status) {
-                const newUser = {
-                    id: users.length + 1,
-                    name: name,
-                    email: email,
-                    status: status
-                };
+            const newUser = {
+                id: users.length + 1,
+                name: name,
+                email: email,
+                status: status
+            };
 
-                users.push(newUser);
-                loadUserTable();
-                closeModal();
-            }
+            users.push(newUser);
+            loadUserTable();
+            closeModal();
         }
     </script>
 </body>
