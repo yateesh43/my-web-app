@@ -184,14 +184,37 @@
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
         }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: white; /* Add this line */
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #FF9800;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f2f2f2;
+        }
     </style>
 </head>
 <body background="https://next-images.123rf.com/index/_next/image/?url=https://assets-cdn.123rf.com/index/static/assets/top-section-bg.jpeg&w=3840&q=75" style="background-size: cover;">
     <div class="sidebar">
         <button class="toggle-btn" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
         <h2>User Dashboard</h2>
-        <a href="#" class="active"><i class="fa-solid fa-chart-line"></i><span>Dashboard</span></a>
-        <a href="#"><i class="fa-solid fa-book"></i><span>Genres</span></a>
+        <a href="#" id="dashboardLink" class="active" onclick="loadDashboard()"><i class="fa-solid fa-chart-line"></i><span>Dashboard</span></a>
+        <a href="#" id="genresLink" onclick="loadGenres()"><i class="fa-solid fa-book"></i><span>Genres</span></a>
         <a href="#"><i class="fa-solid fa-book-open"></i><span>Books</span></a>
         <a href="#"><i class="fa-solid fa-bell"></i><span>Notifications</span></a>
         <a href="/loginPage.html"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></a>
@@ -207,8 +230,9 @@
             </div>
         </div>
 
-        <div class="content">
-            <div class="grid">
+        <div class="content" id="content">
+            <!-- Default content here -->
+            <div class="grid" id="dashboardContent">
                 <div class="card">
                     <h2>Card 1</h2>
                     <p>Details of card 1.</p>
@@ -234,6 +258,71 @@
             sidebar.classList.toggle('closed');
             main.classList.toggle('shifted');
             header.classList.toggle('shifted');
+        }
+
+        function loadDashboard() {
+            // Reset active class
+            document.querySelectorAll('.sidebar a').forEach(link => link.classList.remove('active'));
+            document.getElementById('dashboardLink').classList.add('active');
+
+            // Load dashboard content
+            document.getElementById('content').innerHTML = `
+                <div class="grid" id="dashboardContent">
+                    <div class="card">
+                        <h2>Card 1</h2>
+                        <p>Details of card 1.</p>
+                    </div>
+                    <div class="card">
+                        <h2>Card 2</h2>
+                        <p>Details of card 2.</p>
+                    </div>
+                    <div class="card">
+                        <h2>Card 3</h2>
+                        <p>Details of card 3.</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function loadGenres() {
+            // Reset active class
+            document.querySelectorAll('.sidebar a').forEach(link => link.classList.remove('active'));
+            document.getElementById('genresLink').classList.add('active');
+
+            // Load genres table
+            document.getElementById('content').innerHTML = `
+            <h2 style="color:#fff;">Available Genres</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Genre Name</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Action</td>
+                            <td>Exciting and full of energy.</td>
+                        </tr>
+                        <tr>
+                            <td>Drama</td>
+                            <td>Focused on emotional narratives.</td>
+                        </tr>
+                        <tr>
+                            <td>Comedy</td>
+                            <td>Humorous and entertaining.</td>
+                        </tr>
+                        <tr>
+                            <td>Horror</td>
+                            <td>Scary and intense.</td>
+                        </tr>
+                        <tr>
+                            <td>Romance</td>
+                            <td>Love and relationships.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            `;
         }
     </script>
 </body>
