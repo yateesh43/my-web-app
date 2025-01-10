@@ -433,35 +433,39 @@
             `;
         }
         function loadBooks() {
-    // Reset active class
-    document.querySelectorAll('.sidebar a').forEach(link => link.classList.remove('active'));
-    document.getElementById('booksLink').classList.add('active');
+            document.querySelectorAll('.sidebar a').forEach(link => link.classList.remove('active'));
+            document.getElementById('booksLink').classList.add('active');
 
-    // Load books with Buy and Rent buttons
-    document.getElementById('content').innerHTML = `
-        <h2 style="color:#fff;">Books Available</h2>
-        <div class="grid" id="booksContent">
-            <div class="card">
-                <h2>Book Title 1</h2>
-                <p>Description of Book 1</p>
-                <button class="book-button" onclick="buyBook('Book Title 1')">Buy Book</button>
-                <button class="book-button" onclick="rentBook('Book Title 1')">Rent Book</button>
-            </div>
-            <div class="card">
-                <h2>Book Title 2</h2>
-                <p>Description of Book 2</p>
-                <button class="book-button" onclick="buyBook('Book Title 2')">Buy Book</button>
-                <button class="book-button" onclick="rentBook('Book Title 2')">Rent Book</button>
-            </div>
-            <div class="card">
-                <h2>Book Title 3</h2>
-                <p>Description of Book 3</p>
-                <button class="book-button" onclick="buyBook('Book Title 3')">Buy Book</button>
-                <button class="book-button" onclick="rentBook('Book Title 3')">Rent Book</button>
-            </div>
-        </div>
-    `;
-}
+            document.getElementById('content').innerHTML = `
+                <h2 style="color:#fff;">Books Available</h2>
+                <div class="grid" id="booksContent">
+                    <div class="card">
+                        <img src="https://via.placeholder.com/120x180" alt="Book Image">
+                        <h2>Adventures of the Brave</h2>
+                        <div class="book-genre"><span style="color:#FF9800">Genre</span>: Action & Adventure</div>
+                        <p>Follow the daring journey of a hero on a quest filled with challenges and triumphs.</p>
+                        <button class="book-button" onclick="buyBook('Adventures of the Brave')">Buy Book</button>
+                        <button class="book-button" onclick="rentBook('Adventures of the Brave')">Rent Book</button>
+                    </div>
+                    <div class="card">
+                        <img src="https://via.placeholder.com/120x180" alt="Book Image">
+                        <h2>Heartfelt Tales</h2>
+                        <div class="book-genre"><span style="color:#FF9800">Genre</span>: Drama</div>
+                        <p>A touching narrative exploring life, love, and the bonds that shape us.</p>
+                        <button class="book-button" onclick="buyBook('Heartfelt Tales')">Buy Book</button>
+                        <button class="book-button" onclick="rentBook('Heartfelt Tales')">Rent Book</button>
+                    </div>
+                    <div class="card">
+                        <img src="https://via.placeholder.com/120x180" alt="Book Image">
+                        <h2>Laugh Out Loud</h2>
+                        <div class="book-genre"><span style="color:#FF9800">Genre</span>: Comedy</div>
+                        <p>A collection of hilarious anecdotes guaranteed to bring joy and laughter.</p>
+                        <button class="book-button" onclick="buyBook('Laugh Out Loud')">Buy Book</button>
+                        <button class="book-button" onclick="rentBook('Laugh Out Loud')">Rent Book</button>
+                    </div>
+                </div>
+            `;
+        }
 
 // Buy Book function
 function buyBook(bookTitle) {
