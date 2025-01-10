@@ -147,6 +147,7 @@
 
         .header h1 {
             font-size: 1.5rem;
+            color: white;
         }
 
         .header .profile {
@@ -182,7 +183,7 @@
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+            gap: 50px;
         }
 
         /* Table Styling */
@@ -274,6 +275,19 @@
                 opacity: 1;
             }
         }
+        .notification-card {
+    background-color: #FFF3E0;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.notification-card p {
+    margin: 0;
+    font-size: 1rem;
+}
+
 
     </style>
 </head>
@@ -285,8 +299,10 @@
         <a href="#" id="genresLink" onclick="loadGenres()"><i class="fa-solid fa-book"></i><span>Genres</span></a>
         <!-- <a href="#"><i class="fa-solid fa-book-open"></i><span>Books</span></a> -->
         <a href="#" id="booksLink" onclick="loadBooks()"><i class="fa-solid fa-book-open"></i><span>Books</span></a>
-
-        <a href="#"><i class="fa-solid fa-bell"></i><span>Notifications</span></a>
+        <!-- <a href="#"><i class="fa-solid fa-bell"></i><span>Notifications</span>2</a> -->
+        <a href="#" id="notificationsLink" onclick="loadNotifications()">
+            <i class="fa-solid fa-bell"></i><span>Notifications</span>3
+        </a>
         <a href="/loginPage.html"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></a>
     </div>
 
@@ -463,9 +479,53 @@
                         <button class="book-button" onclick="buyBook('Laugh Out Loud')">Buy Book</button>
                         <button class="book-button" onclick="rentBook('Laugh Out Loud')">Rent Book</button>
                     </div>
+                    <div class="card">
+                        <img src="https://via.placeholder.com/120x180" alt="Book Image">
+                        <h2>Adventures of the Brave</h2>
+                        <div class="book-genre"><span style="color:#FF9800">Genre</span>: Action & Adventure</div>
+                        <p>Follow the daring journey of a hero on a quest filled with challenges and triumphs.</p>
+                        <button class="book-button" onclick="buyBook('Adventures of the Brave')">Buy Book</button>
+                        <button class="book-button" onclick="rentBook('Adventures of the Brave')">Rent Book</button>
+                    </div>
+                    <div class="card">
+                        <img src="https://via.placeholder.com/120x180" alt="Book Image">
+                        <h2>Heartfelt Tales</h2>
+                        <div class="book-genre"><span style="color:#FF9800">Genre</span>: Drama</div>
+                        <p>A touching narrative exploring life, love, and the bonds that shape us.</p>
+                        <button class="book-button" onclick="buyBook('Heartfelt Tales')">Buy Book</button>
+                        <button class="book-button" onclick="rentBook('Heartfelt Tales')">Rent Book</button>
+                    </div>
+                    <div class="card">
+                        <img src="https://via.placeholder.com/120x180" alt="Book Image">
+                        <h2>Laugh Out Loud</h2>
+                        <div class="book-genre"><span style="color:#FF9800">Genre</span>: Comedy</div>
+                        <p>A collection of hilarious anecdotes guaranteed to bring joy and laughter.</p>
+                        <button class="book-button" onclick="buyBook('Laugh Out Loud')">Buy Book</button>
+                        <button class="book-button" onclick="rentBook('Laugh Out Loud')">Rent Book</button>
+                    </div>
                 </div>
             `;
         }
+
+        function loadNotifications() {
+        // Reset active class
+        document.querySelectorAll('.sidebar a').forEach(link => link.classList.remove('active'));
+        document.getElementById('notificationsLink').classList.add('active');
+
+        // Load notifications content
+        document.getElementById('content').innerHTML = `
+            <h2 style="color:#fff;">Notifications</h2>
+            <div class="notification-card">
+                <p><strong>New Book Added:</strong> "Adventures of the Brave" in the Action & Adventure genre.</p>
+            </div>
+            <div class="notification-card">
+                <p><strong>Book Availability:</strong> "Heartfelt Tales" is now available for rent!</p>
+            </div>
+            <div class="notification-card">
+                <p><strong>Upcoming Event:</strong> Join us for the Book Launch on January 15th!</p>
+            </div>
+        `;
+    }
 
 // Buy Book function
 function buyBook(bookTitle) {
