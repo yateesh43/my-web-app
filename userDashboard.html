@@ -173,6 +173,13 @@
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
+            transition: all 0.3s ease-in-out; 
+        }
+
+        .card:hover {
+            background-color: #f8e0a5; 
+            transform: translateY(-8px); 
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
         }
 
         .card h2 {
@@ -276,17 +283,37 @@
             }
         }
         .notification-card {
-    background-color: #FFF3E0;
-    padding: 15px;
-    margin-bottom: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+            background-color: #FFF3E0;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-.notification-card p {
-    margin: 0;
-    font-size: 1rem;
-}
+        .notification-card p {
+            margin: 0;
+            font-size: 1rem;
+            flex: 1;
+        }
+
+        .notification-card i {
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: #FF9800;
+            transition: color 0.3s;
+        }
+
+        .notification-card i:hover {
+            color: #F57C00;
+        }
+
+        /* Add a little padding and hover effect */
+        .notification-card:hover {
+            background-color: #f8e0a5;
+         }
 
 
     </style>
@@ -299,7 +326,6 @@
         <a href="#" id="genresLink" onclick="loadGenres()"><i class="fa-solid fa-book"></i><span>Genres</span></a>
         <!-- <a href="#"><i class="fa-solid fa-book-open"></i><span>Books</span></a> -->
         <a href="#" id="booksLink" onclick="loadBooks()"><i class="fa-solid fa-book-open"></i><span>Books</span></a>
-        <!-- <a href="#"><i class="fa-solid fa-bell"></i><span>Notifications</span>2</a> -->
         <a href="#" id="notificationsLink" onclick="loadNotifications()">
             <i class="fa-solid fa-bell"></i><span>Notifications</span>3
         </a>
@@ -517,13 +543,37 @@
             <h2 style="color:#fff;">Notifications</h2>
             <div class="notification-card">
                 <p><strong>New Book Added:</strong> "Adventures of the Brave" in the Action & Adventure genre.</p>
+                <i class="fa-solid fa-xmark" onclick="deleteNotification(this)"></i>
             </div>
             <div class="notification-card">
                 <p><strong>Book Availability:</strong> "Heartfelt Tales" is now available for rent!</p>
+                <i class="fa-solid fa-xmark" onclick="deleteNotification(this)"></i>
             </div>
             <div class="notification-card">
                 <p><strong>Upcoming Event:</strong> Join us for the Book Launch on January 15th!</p>
+                <i class="fa-solid fa-xmark" onclick="deleteNotification(this)"></i>
             </div>
+        `;
+
+        // Update notification count
+        updateNotificationCount();
+    }
+
+    // Function to delete notification
+    function deleteNotification(iconElement) {
+        const notificationCard = iconElement.parentElement;
+        notificationCard.remove();
+
+        // Update notification count after deleting
+        updateNotificationCount();
+    }
+
+    // Function to update notification count in sidebar
+    function updateNotificationCount() {
+        const notificationCards = document.querySelectorAll('.notification-card');
+        const notificationCount = notificationCards.length;
+        document.getElementById('notificationsLink').innerHTML = `
+            <i class="fa-solid fa-bell"></i><span>Notifications</span>${notificationCount > 0 ? notificationCount : ''}
         `;
     }
 
