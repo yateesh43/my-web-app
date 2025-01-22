@@ -320,16 +320,17 @@
 </head>
 <body background="https://next-images.123rf.com/index/_next/image/?url=https://assets-cdn.123rf.com/index/static/assets/top-section-bg.jpeg&w=3840&q=75" style="background-size: cover;">
     <div class="sidebar">
-        <button class="toggle-btn" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
+        <button class="toggle-btn" onclick="toggleSidebar()"><i class="fa-solid fa-bars" style="color: #ffffff;"></i></button>
         <h2>User Dashboard</h2>
-        <a href="#" id="dashboardLink" class="active" onclick="loadDashboard()"><i class="fa-solid fa-chart-line"></i><span>Dashboard</span></a>
-        <a href="#" id="genresLink" onclick="loadGenres()"><i class="fa-solid fa-book"></i><span>Genres</span></a>
+        <a href="#" id="dashboardLink" class="active" onclick="loadDashboard()"><i class="fa-solid fa-chart-line" style="color: #ffffff;"></i><span>Dashboard</span></a>
+        <a href="#" id="genresLink" onclick="loadGenres()"><i class="fa-solid fa-book" style="color: #ffffff;"></i><span>Genres</span></a>
         <!-- <a href="#"><i class="fa-solid fa-book-open"></i><span>Books</span></a> -->
-        <a href="#" id="booksLink" onclick="loadBooks()"><i class="fa-solid fa-book-open"></i><span>Books</span></a>
+        <a href="#" id="booksLink" onclick="loadBooks()"><i class="fa-solid fa-book-open"  style="color: #ffffff;"></i><span>Books</span></a>
+        <a href="#" id="cartLink" onclick="loadCart()"><i class="fa-solid fa-cart-shopping" style="color: #ffffff;"></i><span>Cart</span></a>
         <a href="#" id="notificationsLink" onclick="loadNotifications()">
-            <i class="fa-solid fa-bell"></i><span>Notifications</span>3
+            <i class="fa-solid fa-bell" style="color: #ffffff;"></i><span>Notifications</span>3
         </a>
-        <a href="/loginPage.html"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></a>
+        <a href="/loginPage.html"><i class="fa-solid fa-right-from-bracket" style="color: #ffffff;"></i><span>Logout</span></a>
     </div>
 
     <div class="main">
@@ -405,7 +406,7 @@
 
             // Load genres table with expanding books list
             document.getElementById('content').innerHTML = `
-                <h2 style="color:#fff;">Available Genres</h2>
+                <h2 style="color:#fff;">Genres Available</h2>
                 <table>
                     <thead>
                         <tr>
@@ -533,6 +534,32 @@
             `;
         }
 
+        let cart = [];
+        function loadCart() {
+    // Reset active class
+    document.querySelectorAll('.sidebar a').forEach(link => link.classList.remove('active'));
+    document.getElementById('cartLink').classList.add('active');
+
+    // Generate cart items HTML
+    const cartItemsHtml = cart.length > 0
+        ? cart.map((item, index) => `
+            <div class="cart-item">
+                ${item.cardHTML}
+                <div class="book-info">
+                    <p><strong>Count:</strong> ${item.count}</p>
+                    <button class="remove-button" onclick="removeFromCart(${index})">Remove</button>
+                </div>
+            </div>
+        `).join('')
+        : '<p>Your cart is empty.</p>';
+
+    // Display cart content
+    document.getElementById('content').innerHTML = `
+        <h2 style="color:#fff;">Your Cart</h2>
+        <div class="cart-items">${cartItemsHtml}</div>
+    `;
+}
+
         function loadNotifications() {
         // Reset active class
         document.querySelectorAll('.sidebar a').forEach(link => link.classList.remove('active'));
@@ -577,15 +604,53 @@
         `;
     }
 
-// Buy Book function
-function buyBook(bookTitle) {
-    alert(`You have selected to buy "${bookTitle}".`);
-}
+    // Buy Book function
+    function buyBook(bookTitle) {
+        const bookCard = event.target.closest('.card').cloneNode(true); // Clone the card to modify it for the cart
+    const existingBookIndex = cart.findIndex(item => item.title === bookTitle);
 
-// Rent Book function
-function rentBook(bookTitle) {
-    alert(`You have selected to rent "${bookTitle}".`);
-}
+    if (existingBookIndex !== -1) {
+        // Increment the count if the book already exists
+        cart[existingBookIndex].count += 1;
+    } else {
+        // Add the new book to the cart with an initial count of 1
+        const modifiedCardHTML = bookCard.outerHTML.replace(
+            /<button.*?<\/button>/g, // Remove Buy and Rent buttons
+            ''
+        );
+        cart.push({ title: bookTitle, count: 1, cardHTML: modifiedCardHTML });
+    }
+
+    updateCartCount();
+    alert(`"${bookTitle}" was added to your cart.`);
+    }
+
+    // Rent Book function
+    function rentBook(bookTitle) {
+        alert(`You have selected to rent "${bookTitle}". Find it in your cart.`);
+    }
+
+    // Function to update cart count in the sidebar
+    function updateCartCount() {
+        const cartCount = cart.length;
+        document.getElementById('cartLink').innerHTML = `
+            <i class="fa-solid fa-cart-shopping"></i><span>Cart</span>${cartCount > 0 ? cartCount : ''}
+        `;
+    }
+
+    // Function to remove a book from the cart
+    function removeFromCart(index) {
+        if (cart[index].count > 1) {
+        // Decrease the count if there are multiple copies
+        cart[index].count -= 1;
+    } else {
+        // Remove the book if only one copy remains
+        cart.splice(index, 1);
+    }
+
+    updateCartCount();
+    loadCart();
+    }
 
 
         function toggleBooks(bookId) {
