@@ -315,6 +315,82 @@
             background-color: #f8e0a5;
          }
 
+         .cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.cart-table th, .cart-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.cart-table th {
+    background-color: #FF9800;
+    color: #fff;
+}
+
+.cart-table tr:hover {
+    background-color: #f4f4f4;
+}
+
+/* Style for the remove button */
+.remove-button {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.remove-button:hover {
+    background-color: #c0392b;
+}
+
+.remove-button:focus {
+    outline: none;
+}
+
+.count-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.count-button {
+    width: 30px;
+    height: 30px;
+    background-color: #FF9800;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin: 0 10px;
+}
+
+.count-button:hover {
+    background-color: #FF5722;
+}
+
+.count {
+    font-size: 18px;
+    color: black; /* Black color for the count */
+    display: inline-block; /* Keeps the count centered and prevents shifting */
+    width: 30px; /* Ensures the count stays in a fixed space */
+    text-align: center; /* Centers the text within its container */
+}
+
+
+
 
     </style>
 </head>
@@ -536,21 +612,40 @@
 
         let cart = [];
         function loadCart() {
-    // Reset active class
-    document.querySelectorAll('.sidebar a').forEach(link => link.classList.remove('active'));
+   // Reset active class
+   document.querySelectorAll('.sidebar a').forEach(link => link.classList.remove('active'));
     document.getElementById('cartLink').classList.add('active');
 
-    // Generate cart items HTML
+    // Generate cart items HTML in a table format
     const cartItemsHtml = cart.length > 0
-        ? cart.map((item, index) => `
-            <div class="cart-item">
-                ${item.cardHTML}
-                <div class="book-info">
-                    <p><strong>Count:</strong> ${item.count}</p>
-                    <button class="remove-button" onclick="removeFromCart(${index})">Remove</button>
-                </div>
-            </div>
-        `).join('')
+        ? `
+            <table class="cart-table">
+                <thead>
+                    <tr>
+                        <th>Book</th>
+                        <th>Count</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${cart.map((item, index) => `
+                        <tr>
+                            <td>${item.title}</td>
+                            <td>
+                                <div class="count-container">
+                                    <button class="count-button" onclick="decreaseCount(${index})">-</button>
+                                    <span class="count">${item.count}</span>
+                                    <button class="count-button" onclick="increaseCount(${index})">+</button>
+                                </div>
+                            </td>
+                            <td>
+                                <button class="remove-button" onclick="removeFromCart(${index})">Remove</button>
+                            </td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        `
         : '<p>Your cart is empty.</p>';
 
     // Display cart content
@@ -621,9 +716,10 @@
         cart.push({ title: bookTitle, count: 1, cardHTML: modifiedCardHTML });
     }
 
+    // Update cart count in the sidebar and reload cart
     updateCartCount();
     alert(`"${bookTitle}" was added to your cart.`);
-    }
+}
 
     // Rent Book function
     function rentBook(bookTitle) {
@@ -632,10 +728,10 @@
 
     // Function to update cart count in the sidebar
     function updateCartCount() {
-        const cartCount = cart.length;
-        document.getElementById('cartLink').innerHTML = `
-            <i class="fa-solid fa-cart-shopping"></i><span>Cart</span>${cartCount > 0 ? cartCount : ''}
-        `;
+        const cartCount = cart.reduce((accum, item) => accum + item.count, 0); // Sum up all the counts of books
+    document.getElementById('cartLink').innerHTML = `
+        <i class="fa-solid fa-cart-shopping"></i><span>Cart</span>${cartCount > 0 ? cartCount : ''}
+    `;
     }
 
     // Function to remove a book from the cart
@@ -651,6 +747,23 @@
     updateCartCount();
     loadCart();
     }
+
+    // Function to increase the count of the book
+function increaseCount(index) {
+    cart[index].count += 1;
+    updateCartCount();
+    loadCart();
+}
+
+// Function to decrease the count of the book
+function decreaseCount(index) {
+    if (cart[index].count > 1) {
+        cart[index].count -= 1;
+    }
+    updateCartCount();
+    loadCart();
+}
+
 
 
         function toggleBooks(bookId) {
@@ -670,3 +783,4 @@
     </script>
 </body>
 </html>
+add the checkout button in the loadCart() method when the items are added and the button should needed to be at the end
