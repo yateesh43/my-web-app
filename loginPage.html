@@ -6,148 +6,177 @@
     <title>Login Page</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap');
-        * {
-            margin: 0;
-            padding: 0;
-            font-family: "Poppins", serif;
-            text-decoration: none;
-        }
-        body {
-            background-color: #f8efe1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-        #container {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            /* background-color: #FFFFFF; */
-            background-color: transparent;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 5px 8px rgba(0, 0, 0, 0.5);
-            max-width: 800px;
-            width: 100%;
-            box-sizing: border-box;
-            -webkit-backdrop-filter: blur(10px);
-            backdrop-filter: blur(10px);
-        }
-        img {
-            width: 300px;
-            height: 300px;
-            border-radius: 10%;
-            margin-right: 20px;
-        }
-        form {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-evenly;
-            width: 100%;
-            max-width: 400px;
-        }
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .tb {
-            width: 100%;
-            height: 40px;
-            border: 1px solid #000000;
-            border-radius: 5px;
-            padding-left: 10px;
-            /* background-color: #f2f2f2; */
-            background-color: transparent;
-            margin-bottom: 15px;
-        }
-        #login-btn {
-            width: 200px;
-            height: 35px;
-            border: none;
-            border-top-left-radius: 8px;
-            border-bottom-right-radius: 8px;
-            color: #f2f2f2;
-            background-color: #FF9800;
-            transition: all 0.3s ease;
-            margin: 0 auto;
-        }
-        #login-btn:hover {
-            background-color: #F57C00;
-            cursor: pointer;
-        }
-        #reg {
-            color: #FF9800;
-        }
 
-        /* Error Message */
-        #error-message {
-            color: red;
-            text-align: center;
-            display: none;
-            margin-top: 10px;
-        }
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", serif;
+    text-decoration: none;
+}
 
-        /* Media Queries for Responsiveness */
-        @media screen and (max-width: 768px) {
-            #container {
-                padding: 15px;
-            }
-            img {
-                width: 150px;
-                height: 150px;
-                margin-right: 0;
-                margin-bottom: 20px;
-            }
-            form {
-                max-width: 100%;
-            }
-            h1 {
-                font-size: 1.5rem;
-            }
-            .tb {
-                height: 35px;
-            }
-            #login-btn {
-                width: 180px;
-                height: 35px;
-            }
-        }
+body {
+    background-color: #121212; /* Dark background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+    color: #E0E0E0; /* Light text color */
+}
 
-        @media screen and (max-width: 480px) {
-            body {
-                padding: 10px;
-            }
-            #container {
-                flex-direction: column;
-                align-items: center;
-                padding: 10px;
-            }
-            img {
-                display: none; /* Hide the image on mobile screens */
-            }
-            form {
-                width: 100%;
-            }
-            h1 {
-                font-size: 1.2rem;
-            }
-            .tb {
-                height: 30px;
-            }
-            #login-btn {
-                width: 150px;
-                height: 30px;
-            }
-            p {
-                font-size: 0.9rem;
-            }
-        }
+#container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    background-color: #1F1F1F; /* Dark container background */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.7); /* Darker shadow */
+    max-width: 800px;
+    width: 100%;
+    box-sizing: border-box;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+}
+
+img {
+    width: 300px;
+    height: 300px;
+    border-radius: 10%;
+    margin-right: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 100%;
+    max-width: 400px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #E0E0E0; /* Light text color */
+}
+
+.tb {
+    width: 100%;
+    height: 40px;
+    border: 1px solid #444; /* Darker border */
+    border-radius: 5px;
+    padding-left: 10px;
+    background-color: #2C2C2C; /* Dark input background */
+    color: #E0E0E0; /* Light text */
+    margin-bottom: 15px;
+}
+
+.tb::placeholder {
+    color: #FFFFFF; /* White placeholder text */
+}
+
+#login-btn {
+    width: 200px;
+    height: 35px;
+    border: none;
+    border-top-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    color: #f2f2f2;
+    background-color: #FF5722; /* Orange background for button */
+    transition: all 0.3s ease;
+    margin: 0 auto;
+}
+
+#login-btn:hover {
+    background-color: #F57C00; /* Slightly darker orange on hover */
+    cursor: pointer;
+}
+
+#reg {
+    color: #FF5722; /* Orange for registration link */
+}
+
+#error-message {
+    color: red;
+    text-align: center;
+    display: none;
+    margin-top: 10px;
+}
+
+@media screen and (max-width: 768px) {
+    #container {
+        padding: 15px;
+    }
+
+    img {
+        width: 150px;
+        height: 150px;
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+
+    form {
+        max-width: 100%;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    .tb {
+        height: 35px;
+    }
+
+    #login-btn {
+        width: 180px;
+        height: 35px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+
+    #container {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+    }
+
+    img {
+        display: none; /* Hide the image on mobile screens */
+    }
+
+    form {
+        width: 100%;
+    }
+
+    h1 {
+        font-size: 1.2rem;
+    }
+
+    .tb {
+        height: 30px;
+    }
+
+    #login-btn {
+        width: 150px;
+        height: 30px;
+    }
+
+    p {
+        font-size: 0.9rem;
+    }
+}
+
     </style>
 </head>
-<body background="https://next-images.123rf.com/index/_next/image/?url=https://assets-cdn.123rf.com/index/static/assets/top-section-bg.jpeg&w=3840&q=75" style="background-size: cover;">
+<!-- <body background="https://next-images.123rf.com/index/_next/image/?url=https://assets-cdn.123rf.com/index/static/assets/top-section-bg.jpeg&w=3840&q=75" style="background-size: cover;"> -->
+    <body>
+        
+
     <div id="container">
         <img src="https://packetprep.com/images/login_graphics/one.png" alt="Login Icon">
         <form id="login-form" action="" method="get">
