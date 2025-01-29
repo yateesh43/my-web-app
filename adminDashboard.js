@@ -76,7 +76,16 @@ function loadUserTable() {
             <td>${user.name}</td>
             <td>${user.email}</td>
             <td>${user.status}</td>
-            <td><span class="delete-btn" onclick="deleteUser(${user.id})"><i class="fa-solid fa-trash"></i></span></td>
+            <td>
+                <span class="edit-btn" onclick="openEditUserModal(${user.id})" style="color: green; cursor: pointer;">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </span>
+            </td>
+            <td>
+                <span class="delete-btn" onclick="deleteUser(${user.id})">
+                    <i class="fa-solid fa-trash"></i>
+                </span>
+            </td>
         `;
         tableBody.appendChild(row);
     });
@@ -93,19 +102,61 @@ function loadBooksTable() {
             <td>${book.author}</td>
             <td>${book.genre}</td>
             <td>${book.status}</td>
-            <td><span class="delete-btn" onclick="deleteBook(${book.id})"><i class="fa-solid fa-trash"></i></span></td>
+            <td>
+                <span class="edit-btn" onclick="openEditBookModal(${book.id})" style="color: green; cursor: pointer;">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </span>
+            </td>
+            <td>
+                <span class="delete-btn" onclick="deleteBook(${book.id})">
+                    <i class="fa-solid fa-trash"></i>
+                </span>
+            </td>
         `;
         tableBody.appendChild(row);
     });
 }
 
+function openEditUserModal(id) {
+    const user = users.find(u => u.id === id);
+    document.getElementById('editUserId').value = user.id;
+    document.getElementById('editUserName').value = user.name;
+    document.getElementById('editUserEmail').value = user.email;
+    document.getElementById('editUserStatus').value = user.status;
+
+    document.getElementById('editUserModal').style.display = 'flex';
+}
+
+function openEditBookModal(id) {
+    const book = books.find(b => b.id === id);
+    document.getElementById('editBookId').value = book.id;
+    document.getElementById('editBookTitle').value = book.title;
+    document.getElementById('editBookAuthor').value = book.author;
+    document.getElementById('editBookGenre').value = book.genre;
+    document.getElementById('editBookStatus').value = book.status;
+
+    document.getElementById('editBookModal').style.display = 'flex';
+}
+
 function deleteUser(id) {
     users = users.filter(user => user.id !== id);
+
+    // Reassign IDs sequentially
+    users.forEach((user, index) => {
+        user.id = index + 1;
+    });
+
     loadUserTable();
 }
 
 function deleteBook(id) {
     books = books.filter(book => book.id !== id);
+
+    // Reassign IDs sequentially
+    books.forEach((book, index) => {
+        book.id = index + 1;
+    });
+
     loadBooksTable();
 }
 
@@ -163,4 +214,35 @@ function openBookModal() {
 function closeBookModal() {
     const modal = document.getElementById('bookModal');
     modal.style.display = 'none';
+}
+
+function closeEditUserModal() {
+    document.getElementById('editUserModal').style.display = 'none';
+}
+
+function closeEditBookModal() {
+    document.getElementById('editBookModal').style.display = 'none';
+}
+
+function saveUserChanges() {
+    const id = parseInt(document.getElementById('editUserId').value);
+    const name = document.getElementById('editUserName').value;
+    const email = document.getElementById('editUserEmail').value;
+    const status = document.getElementById('editUserStatus').value;
+
+    users = users.map(user => user.id === id ? { id, name, email, status } : user);
+    loadUserTable();
+    closeEditUserModal();
+}
+
+function saveBookChanges() {
+    const id = parseInt(document.getElementById('editBookId').value);
+    const title = document.getElementById('editBookTitle').value;
+    const author = document.getElementById('editBookAuthor').value;
+    const genre = document.getElementById('editBookGenre').value;
+    const status = document.getElementById('editBookStatus').value;
+
+    books = books.map(book => book.id === id ? { id, title, author, genre, status } : book);
+    loadBooksTable();
+    closeEditBookModal();
 }

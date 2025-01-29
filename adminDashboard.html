@@ -60,6 +60,7 @@
                             <th>Name</th>
                             <th>Email</th>
                             <th>Status</th>
+                            <th>Edit</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -80,6 +81,7 @@
                             <th>Author</th>
                             <th>Genre</th> <!-- Added Genre column -->
                             <th>Status</th>
+                            <th>Edit</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -131,6 +133,47 @@
             <button onclick="addBook()">Submit</button>
         </div>
     </div>
+
+    <!-- Edit User Modal -->
+<div id="editUserModal" class="modal">
+    <div class="modal-content">
+        <h2>Edit User</h2>
+        <input type="hidden" id="editUserId">
+        <label>Name:</label>
+        <input type="text" id="editUserName">
+        <label>Email:</label>
+        <input type="email" id="editUserEmail">
+        <label>Status:</label>
+        <select id="editUserStatus">
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+        </select>
+        <button onclick="saveUserChanges()">Save</button>
+        <button onclick="closeEditUserModal()">Cancel</button>
+    </div>
+</div>
+
+<!-- Edit Book Modal -->
+<div id="editBookModal" class="modal">
+    <div class="modal-content">
+        <h2>Edit Book</h2>
+        <input type="hidden" id="editBookId">
+        <label>Title:</label>
+        <input type="text" id="editBookTitle">
+        <label>Author:</label>
+        <input type="text" id="editBookAuthor">
+        <label>Genre:</label>
+        <input type="text" id="editBookGenre">
+        <label>Status:</label>
+        <select id="editBookStatus">
+            <option value="Available">Available</option>
+            <option value="Unavailable">Unavailable</option>
+        </select>
+        <button onclick="saveBookChanges()">Save</button>
+        
+        <button onclick="closeEditBookModal()">Cancel</button>
+    </div>
+</div>
 
     <script src="adminDashboard.js"></script>
 </body>
